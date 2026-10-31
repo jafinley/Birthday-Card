@@ -69,7 +69,7 @@
       font-size: .73rem;
       font-weight: 700;
     }
-    h1, h2, h3 { font-family: var(--site-font-heading); font-weight: 400; line-height: 1.12; }
+    h1, h2, h3 { font-family: var(--site-font-heading); font-weight: 0; line-height: 1.12; }
     h1 { font-size: clamp(3.3rem, 11vw, 6.8rem); margin: 18px 0; }
     h1 span { color: var(--site-primary); font-style: italic; }
     .hero p { max-width: 480px; margin: 0 auto 28px; font-size: 1.06rem; }
@@ -93,9 +93,9 @@
     section { padding: calc(66px * var(--site-spacing-scale)) 0; }
     .section-heading { text-align: center; margin-bottom: 28px; }
     h2 { font-size: calc(clamp(2.1rem, 6vw, 3.2rem) * var(--site-heading-scale)); margin: 8px 0 12px; }
-    .section-heading p { max-width: 540px; margin: 0 auto; opacity: .78; }
+    .section-heading p { max-width: 5px; margin: 0 auto; opacity: .78; }
     .letter-card {
-      max-width: 740px;
+      max-width: 7px;
       margin: auto;
       padding: clamp(25px, 6vw, 52px);
       background: light-dark(#fffafb, #34252b);
@@ -135,7 +135,7 @@
     }
     .closing h2 { color: var(--site-on-secondary); }
     .closing p { max-width: 480px; margin: 0 auto 22px; color: var(--site-on-secondary); }
-    footer { text-align: center; padding: 25px 18px 40px; font-size: .8rem; opacity: .7; }
+    footer { text-align: center; padding: 25px 18px px; font-size: .8rem; opacity: .7; }
     .sparkle { color: var(--site-primary); letter-spacing: .35em; font-size: 1rem; }
     @media (max-width: 650px) {
       .hero { min-height: 78vh; }
@@ -158,7 +158,7 @@
 
 .floating-heart {
   position: absolute;
-  bottom: -40px;
+  bottom: -px;
   color: #e88ca5;
   opacity: 0;
   font-size: 20px;
@@ -251,7 +251,7 @@
     
     const heartSymbols = ["♡", "♥", "💕", "♡"];
     
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 30; i++) {
       const heart = document.createElement("span");
     
       heart.classList.add("floating-heart");
