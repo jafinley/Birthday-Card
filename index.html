@@ -147,19 +147,57 @@
       .photo-grid { grid-template-columns: 1fr; }
       .photo-slot:last-child { grid-column: auto; aspect-ratio: 4 / 5; }
     }
+    /* Floating hearts animation */
+.floating-hearts {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.floating-heart {
+  position: absolute;
+  bottom: -40px;
+  color: #e88ca5;
+  opacity: 0;
+  font-size: 20px;
+  animation: floatUp linear infinite;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.65;
+  }
+  85% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-110vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floating-heart {
+    animation: none;
+    display: none;
+  }
+}
   </style>
 </head>
 <body>
+  <div class="floating-hearts" aria-hidden="true"></div>
   <div class="app" id="top">
     <header class="hero">
       <div class="hero-inner">
         <div class="sparkle">✧ ♡ ✧</div>
         <div class="eyebrow">Today is all about you (like always)</div>
         <h1>Happy Birthday Danny <3<br><span>mi amor</span></h1>
-        <p></p>
-        <button class="button" id="musicButton" type="button" aria-pressed="false">♫ Play a little birthday soundtrack</button>
-        <span class="music-note" id="musicStatus">Tap to play a soft, original melody</span>
-        <div class="heart" aria-hidden="true">♡</div>
       </div>
     </header>
 
@@ -199,10 +237,10 @@
              href="https://open.spotify.com/playlist/1Jp0IDO2AV9NBht0x3UmxS?si=iYOrUBaiQGmmwdJuYDIF-Q"
              target="_blank"
              rel="noopener noreferrer"
-             style="display:inline-block;text-decoration:none;">
+             ="display:inline-block;text-decoration:none;">
              ♫ Open our playlist on Spotify
           </a>
-          <p id="wishMessage" hidden style="margin-top:18px;font-family:Georgia,serif;font-style:italic;">May every beautiful thing find its way to you. I love you. ♡</p>
+          <p id="wishMessage" hidden ="margin-top:18px;font-family:Georgia,serif;font-:italic;">May every beautiful thing find its way to you. I love you. ♡</p>
         </div>
       </section>
     </main>
@@ -210,58 +248,26 @@
   </div>
 
   <script>
-    // A short, original melody synthesized in the browser; no copyrighted song or external audio file.
-    let audioContext = null;
-    let melodyTimer = null;
-    let noteIndex = 0;
-    const notes = [523.25, 659.25, 783.99, 659.25, 587.33, 698.46, 783.99, 698.46];
-    const musicButton = document.getElementById("musicButton");
-    const musicStatus = document.getElementById("musicStatus");
-
-    function playNote(frequency) {
-      if (!audioContext) return;
-      const oscillator = audioContext.createOscillator();
-      const gain = audioContext.createGain();
-      oscillator.type = "sine";
-      oscillator.frequency.value = frequency;
-      gain.gain.setValueAtTime(0.0001, audioContext.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.075, audioContext.currentTime + 0.04);
-      gain.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 0.48);
-      oscillator.connect(gain);
-      gain.connect(audioContext.destination);
-      oscillator.start();
-      oscillator.stop(audioContext.currentTime + 0.5);
-    }
-
-    musicButton.addEventListener("click", async () => {
-      if (melodyTimer) {
-        clearInterval(melodyTimer);
-        melodyTimer = null;
-        if (audioContext) await audioContext.suspend();
-        musicButton.textContent = "♫ Play a little birthday soundtrack";
-        musicButton.setAttribute("aria-pressed", "false");
-        musicStatus.textContent = "The melody is paused";
-        return;
-      }
-      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-      if (!AudioContextClass) {
-        musicStatus.textContent = "Audio playback isn't supported in this browser.";
-        return;
-      }
-      audioContext = audioContext || new AudioContextClass();
-      await audioContext.resume();
-      playNote(notes[noteIndex++ % notes.length]);
-      melodyTimer = setInterval(() => playNote(notes[noteIndex++ % notes.length]), 520);
-      musicButton.textContent = "Ⅱ Pause the music";
-      musicButton.setAttribute("aria-pressed", "true");
-      musicStatus.textContent = "A little original melody, just for you ♡";
-    });
-
-    document.getElementById("wishButton").addEventListener("click", () => {
-      const message = document.getElementById("wishMessage");
-      message.hidden = !message.hidden;
-      document.getElementById("wishButton").textContent = message.hidden ? "A little birthday wish ✨" : "Sending you all my love ♡";
-    });
+    // Create floating hearts
+    const heartContainer = document.querySelector(".floating-hearts");
+    
+    const heartSymbols = ["♡", "♥", "💕", "♡"];
+    
+    for (let i = 0; i < 18; i++) {
+      const heart = document.createElement("span");
+    
+      heart.classList.add("floating-heart");
+      heart.textContent = heartSymbols[
+        Math.floor(Math.random() * heartSymbols.length)
+      ];
+    
+      heart.style.left = Math.random() * 100 + "%";
+      heart.style.animationDuration = (8 + Math.random() * 10) + "s";
+      heart.style.animationDelay = (-Math.random() * 18) + "s";
+      heart.style.fontSize = (14 + Math.random() * 18) + "px";
+    
+      heartContainer.appendChild(heart);
+    } 
   </script>
 </body>
 </html>
